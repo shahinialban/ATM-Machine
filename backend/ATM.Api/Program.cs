@@ -1,6 +1,8 @@
 ﻿using ATM.Api.Data;
 using ATM.Api.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Cryptography;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -26,14 +28,18 @@ var app = builder.Build();
 using (var scope = app.Services.CreateScope())
 {
     var context = scope.ServiceProvider.GetRequiredService<AtmContext>();
+    context.Database.Migrate();
+
     if (!context.Accounts.Any())
     {
+        var pinHash = Convert.ToHexString(SHA256.HashData(Encoding.UTF8.GetBytes("1234")));
+
         context.Accounts.Add(new Account
         {
             AccountNumber = "1234567890",
             UserName = "John Doe",
-            PinHash = "1234",
-            Balance = 1000
+            PinHash = pinHash,
+            Balance = 1000m
         });
         context.SaveChanges();
     }

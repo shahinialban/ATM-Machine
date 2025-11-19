@@ -1,5 +1,3 @@
-version: "3.9"
-
 services:
   postgres:
     image: postgres:16-alpine
@@ -19,7 +17,7 @@ services:
       dockerfile: Dockerfile
     environment:
       ASPNETCORE_ENVIRONMENT: Development
-      ConnectionStrings__DefaultConnection: Host=postgres;Port=5432;Database=atm_db;Username=atm_user;Password=1234
+      ConnectionStrings__DefaultConnection: Host=postgres;Port=5432;Database=atm_db;Username=atm_user;Password=atm_pass
     depends_on:
       - postgres
     ports:
