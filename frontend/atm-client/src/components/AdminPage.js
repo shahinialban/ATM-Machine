@@ -9,6 +9,16 @@ const AdminPage = ({ onBack }) => {
   const [selectedAccount, setSelectedAccount] = useState(null);
   const [recentTransactions, setRecentTransactions] = useState([]);
 
+  const getTransactionTypeName = (type) => {
+    const typeMap = {
+      0: 'Deposit',
+      1: 'Withdrawal',
+      2: 'Balance Check',
+      3: 'Login'
+    };
+    return typeMap[type] || type;
+  };
+
   const [newAccount, setNewAccount] = useState({
     accountNumber: '',
     pin: '',
@@ -100,30 +110,75 @@ const AdminPage = ({ onBack }) => {
   };
 
   return (
-    <section style={{ display: 'grid', gap: '1.5rem', background: '#fff', padding: '1.5rem', borderRadius: 8 }}>
-      <header style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <h2>Admin Panel</h2>
-        <button onClick={onBack}>Back to Login</button>
+    <section style={{ display: 'grid', gap: '1.5rem', background: '#fff', padding: '2rem', borderRadius: 16 }}>
+      <header style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
+        <h2 style={{ margin: 0, fontSize: '1.5rem', fontWeight: 600 }}>Admin Panel</h2>
+        <button 
+          onClick={onBack}
+          style={{
+            padding: '0.75rem 1rem',
+            background: '#f5f5f5',
+            color: '#666',
+            border: 'none',
+            borderRadius: 12,
+            fontSize: '0.875rem',
+            fontWeight: 500,
+            cursor: 'pointer'
+          }}
+        >
+          Back to Login
+        </button>
       </header>
 
-      {error && <div style={{ color: 'red', padding: '0.75rem', background: '#ffe6e6', borderRadius: 4 }}>{error}</div>}
+      {error && <div style={{ 
+        color: '#d32f2f', 
+        padding: '0.75rem', 
+        background: '#ffebee', 
+        borderRadius: 12,
+        fontSize: '0.875rem'
+      }}>{error}</div>}
 
       <div style={{ display: 'flex', gap: '1rem', justifyContent: 'space-between', alignItems: 'center' }}>
-        <h3>User Accounts</h3>
-        <button onClick={() => setShowAddForm(!showAddForm)}>
+        <h3 style={{ margin: 0, fontSize: '1.125rem', fontWeight: 600 }}>User Accounts</h3>
+        <button 
+          onClick={() => setShowAddForm(!showAddForm)}
+          style={{
+            padding: '0.75rem 1rem',
+            background: showAddForm ? '#f5f5f5' : '#4CAF50',
+            color: showAddForm ? '#666' : '#fff',
+            border: 'none',
+            borderRadius: 12,
+            fontSize: '0.875rem',
+            fontWeight: 500,
+            cursor: 'pointer'
+          }}
+        >
           {showAddForm ? 'Cancel' : 'Add New User'}
         </button>
       </div>
 
       {showAddForm && (
-        <form onSubmit={handleAddAccount} style={{ display: 'grid', gap: '0.75rem', padding: '1rem', background: '#f9f9f9', borderRadius: 4 }}>
-          <h4>Add New User</h4>
+        <form onSubmit={handleAddAccount} style={{ 
+          display: 'grid', 
+          gap: '1rem', 
+          padding: '1.5rem', 
+          background: '#f9f9f9', 
+          borderRadius: 12 
+        }}>
+          <h4 style={{ margin: 0, fontSize: '1.125rem', fontWeight: 600 }}>Add New User</h4>
           <input
             type="text"
             placeholder="Account Number"
             value={newAccount.accountNumber}
             onChange={(e) => setNewAccount({ ...newAccount, accountNumber: e.target.value })}
             required
+            style={{
+              padding: '1rem',
+              border: '1px solid #ddd',
+              borderRadius: 12,
+              fontSize: '1rem',
+              outline: 'none'
+            }}
           />
           <input
             type="password"
@@ -131,12 +186,26 @@ const AdminPage = ({ onBack }) => {
             value={newAccount.pin}
             onChange={(e) => setNewAccount({ ...newAccount, pin: e.target.value })}
             required
+            style={{
+              padding: '1rem',
+              border: '1px solid #ddd',
+              borderRadius: 12,
+              fontSize: '1rem',
+              outline: 'none'
+            }}
           />
           <input
             type="text"
             placeholder="User Name (optional)"
             value={newAccount.userName}
             onChange={(e) => setNewAccount({ ...newAccount, userName: e.target.value })}
+            style={{
+              padding: '1rem',
+              border: '1px solid #ddd',
+              borderRadius: 12,
+              fontSize: '1rem',
+              outline: 'none'
+            }}
           />
           <input
             type="number"
@@ -146,35 +215,80 @@ const AdminPage = ({ onBack }) => {
             value={newAccount.balance}
             onChange={(e) => setNewAccount({ ...newAccount, balance: e.target.value })}
             required
+            style={{
+              padding: '1rem',
+              border: '1px solid #ddd',
+              borderRadius: 12,
+              fontSize: '1rem',
+              outline: 'none'
+            }}
           />
-          <button type="submit">Create Account</button>
+          <button 
+            type="submit"
+            style={{
+              padding: '1rem',
+              background: '#4CAF50',
+              color: '#fff',
+              border: 'none',
+              borderRadius: 12,
+              fontSize: '1rem',
+              fontWeight: 600,
+              cursor: 'pointer'
+            }}
+          >
+            Create Account
+          </button>
         </form>
       )}
 
       {loading ? (
-        <p>Loading...</p>
+        <p style={{ textAlign: 'center', color: '#666' }}>Loading...</p>
       ) : (
-        <div style={{ overflowX: 'auto' }}>
+        <div style={{ overflowX: 'auto', background: '#f9f9f9', borderRadius: 12, padding: '1rem' }}>
           <table style={{ width: '100%', borderCollapse: 'collapse' }}>
             <thead>
-              <tr style={{ background: '#f5f5f5' }}>
-                <th style={{ padding: '0.75rem', textAlign: 'left', borderBottom: '2px solid #ddd' }}>Account Number</th>
-                <th style={{ padding: '0.75rem', textAlign: 'left', borderBottom: '2px solid #ddd' }}>User Name</th>
-                <th style={{ padding: '0.75rem', textAlign: 'left', borderBottom: '2px solid #ddd' }}>Balance</th>
-                <th style={{ padding: '0.75rem', textAlign: 'left', borderBottom: '2px solid #ddd' }}>Actions</th>
+              <tr>
+                <th style={{ padding: '0.75rem', textAlign: 'left', borderBottom: '2px solid #ddd', fontSize: '0.875rem', fontWeight: 600, color: '#666' }}>Account Number</th>
+                <th style={{ padding: '0.75rem', textAlign: 'left', borderBottom: '2px solid #ddd', fontSize: '0.875rem', fontWeight: 600, color: '#666' }}>User Name</th>
+                <th style={{ padding: '0.75rem', textAlign: 'left', borderBottom: '2px solid #ddd', fontSize: '0.875rem', fontWeight: 600, color: '#666' }}>Balance</th>
+                <th style={{ padding: '0.75rem', textAlign: 'left', borderBottom: '2px solid #ddd', fontSize: '0.875rem', fontWeight: 600, color: '#666' }}>Actions</th>
               </tr>
             </thead>
             <tbody>
               {accounts.map((account) => (
                 <tr key={account.id} style={{ borderBottom: '1px solid #eee' }}>
-                  <td style={{ padding: '0.75rem' }}>{account.accountNumber}</td>
-                  <td style={{ padding: '0.75rem' }}>{account.userName}</td>
-                  <td style={{ padding: '0.75rem' }}>${account.balance.toFixed(2)}</td>
+                  <td style={{ padding: '0.75rem', fontSize: '0.875rem' }}>{account.accountNumber}</td>
+                  <td style={{ padding: '0.75rem', fontSize: '0.875rem' }}>{account.userName}</td>
+                  <td style={{ padding: '0.75rem', fontSize: '0.875rem', fontWeight: 500 }}>${account.balance.toFixed(2)}</td>
                   <td style={{ padding: '0.75rem', display: 'flex', gap: '0.5rem' }}>
-                    <button onClick={() => handleViewRecent(account.accountNumber)}>
+                    <button 
+                      onClick={() => handleViewRecent(account.accountNumber)}
+                      style={{
+                        padding: '0.5rem 0.75rem',
+                        background: '#fff',
+                        color: '#333',
+                        border: '1px solid #ddd',
+                        borderRadius: 8,
+                        fontSize: '0.75rem',
+                        fontWeight: 500,
+                        cursor: 'pointer'
+                      }}
+                    >
                       View Recent
                     </button>
-                    <button onClick={() => handleDeleteAccount(account.accountNumber)} style={{ background: '#dc3545', color: 'white' }}>
+                    <button 
+                      onClick={() => handleDeleteAccount(account.accountNumber)}
+                      style={{
+                        padding: '0.5rem 0.75rem',
+                        background: '#d32f2f',
+                        color: 'white',
+                        border: 'none',
+                        borderRadius: 8,
+                        fontSize: '0.75rem',
+                        fontWeight: 500,
+                        cursor: 'pointer'
+                      }}
+                    >
                       Delete
                     </button>
                   </td>
@@ -182,20 +296,20 @@ const AdminPage = ({ onBack }) => {
               ))}
             </tbody>
           </table>
-          {accounts.length === 0 && <p style={{ padding: '1rem', textAlign: 'center' }}>No accounts found</p>}
+          {accounts.length === 0 && <p style={{ padding: '1rem', textAlign: 'center', color: '#666' }}>No accounts found</p>}
         </div>
       )}
 
       {selectedAccount && (
-        <div style={{ padding: '1rem', background: '#f9f9f9', borderRadius: 4 }}>
-          <h4>Last 3 Actions for Account: {selectedAccount}</h4>
+        <div style={{ padding: '1.5rem', background: '#f9f9f9', borderRadius: 12 }}>
+          <h4 style={{ marginTop: 0, marginBottom: '1rem', fontSize: '1.125rem', fontWeight: 600 }}>Last 3 Actions for Account: {selectedAccount}</h4>
           {recentTransactions.length === 0 ? (
-            <p>No recent transactions</p>
+            <p style={{ color: '#666' }}>No recent transactions</p>
           ) : (
-            <ul style={{ listStyle: 'none', padding: 0 }}>
+            <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
               {recentTransactions.map((tx, idx) => (
-                <li key={idx} style={{ padding: '0.5rem 0', borderBottom: '1px solid #eee' }}>
-                  <strong>{tx.type}</strong> — ${tx.amount?.toFixed(2)} on {new Date(tx.createdAt).toLocaleString()}
+                <li key={idx} style={{ padding: '0.75rem 0', borderBottom: '1px solid #eee', fontSize: '0.875rem' }}>
+                  <strong>{getTransactionTypeName(tx.type)}</strong> — ${tx.amount?.toFixed(2)} on {new Date(tx.createdAt).toLocaleString()}
                   {tx.description && <span> · {tx.description}</span>}
                 </li>
               ))}

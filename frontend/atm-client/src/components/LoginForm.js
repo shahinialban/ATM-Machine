@@ -30,19 +30,70 @@ const LoginForm = ({ onSuccess }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit} style={{ display: 'grid', gap: '0.75rem', background: '#fff', padding: '1.5rem', borderRadius: 8 }}>
-      <label>
-        <span>Account Number</span>
-        <input name="accountNumber" value={form.accountNumber} onChange={handleChange} required />
+    <form onSubmit={handleSubmit} style={{ 
+      display: 'grid', 
+      gap: '1rem', 
+      background: '#fff', 
+      padding: '2rem', 
+      borderRadius: 16 
+    }}>
+      <label style={{ display: 'grid', gap: '0.5rem' }}>
+        <span style={{ fontSize: '0.875rem', color: '#666', fontWeight: 500 }}>Account Number</span>
+        <input 
+          name="accountNumber" 
+          value={form.accountNumber} 
+          onChange={handleChange} 
+          required
+          style={{
+            padding: '1rem',
+            border: '1px solid #ddd',
+            borderRadius: 12,
+            fontSize: '1rem',
+            outline: 'none'
+          }}
+        />
       </label>
-      <label>
-        <span>PIN</span>
-        <input name="pin" type="password" value={form.pin} onChange={handleChange} required />
+      <label style={{ display: 'grid', gap: '0.5rem' }}>
+        <span style={{ fontSize: '0.875rem', color: '#666', fontWeight: 500 }}>PIN</span>
+        <input 
+          name="pin" 
+          type="password" 
+          value={form.pin} 
+          onChange={handleChange} 
+          required
+          style={{
+            padding: '1rem',
+            border: '1px solid #ddd',
+            borderRadius: 12,
+            fontSize: '1rem',
+            outline: 'none'
+          }}
+        />
       </label>
-      <button type="submit" disabled={loading}>
+      <button 
+        type="submit" 
+        disabled={loading}
+        style={{
+          padding: '1rem',
+          background: '#4CAF50',
+          color: '#fff',
+          border: 'none',
+          borderRadius: 12,
+          fontSize: '1rem',
+          fontWeight: 600,
+          cursor: loading ? 'not-allowed' : 'pointer',
+          opacity: loading ? 0.7 : 1
+        }}
+      >
         {loading ? 'Signing in…' : 'Sign In'}
       </button>
-      {error && <small style={{ color: 'red' }}>{error}</small>}
+      {error && <div style={{ 
+        color: '#d32f2f', 
+        padding: '0.75rem', 
+        background: '#ffebee', 
+        borderRadius: 8,
+        fontSize: '0.875rem'
+      }}>{error}</div>}
     </form>
   );
 };
