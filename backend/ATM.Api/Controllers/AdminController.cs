@@ -20,7 +20,7 @@ public class AdminController : ControllerBase
     }
 
     [HttpGet("accounts")]
-    public async Task<IActionResult> GetAllAccounts([FromHeader] string? adminUsername, [FromHeader] string? adminPassword, CancellationToken cancellationToken)
+    public async Task<IActionResult> GetAllAccounts([FromHeader(Name = "adminUsername")] string? adminUsername, [FromHeader(Name = "adminPassword")] string? adminPassword, CancellationToken cancellationToken)
     {
         if (!ValidateAdminCredentials(adminUsername, adminPassword))
         {
@@ -41,7 +41,7 @@ public class AdminController : ControllerBase
     }
 
     [HttpPost("accounts")]
-    public async Task<IActionResult> CreateAccount(CreateAccountRequest request, [FromHeader] string? adminUsername, [FromHeader] string? adminPassword, CancellationToken cancellationToken)
+    public async Task<IActionResult> CreateAccount(CreateAccountRequest request, [FromHeader(Name = "adminUsername")] string? adminUsername, [FromHeader(Name = "adminPassword")] string? adminPassword, CancellationToken cancellationToken)
     {
         if (!ValidateAdminCredentials(adminUsername, adminPassword))
         {
@@ -80,7 +80,7 @@ public class AdminController : ControllerBase
     }
 
     [HttpDelete("accounts/{accountNumber}")]
-    public async Task<IActionResult> DeleteAccount(string accountNumber, [FromHeader] string? adminUsername, [FromHeader] string? adminPassword, CancellationToken cancellationToken)
+    public async Task<IActionResult> DeleteAccount(string accountNumber, [FromHeader(Name = "adminUsername")] string? adminUsername, [FromHeader(Name = "adminPassword")] string? adminPassword, CancellationToken cancellationToken)
     {
         if (!ValidateAdminCredentials(adminUsername, adminPassword))
         {
@@ -104,7 +104,7 @@ public class AdminController : ControllerBase
     }
 
     [HttpGet("accounts/{accountNumber}/recent")]
-    public async Task<IActionResult> GetRecentTransactions(string accountNumber, [FromHeader] string? adminUsername, [FromHeader] string? adminPassword, CancellationToken cancellationToken)
+    public async Task<IActionResult> GetRecentTransactions(string accountNumber, [FromHeader(Name = "adminUsername")] string? adminUsername, [FromHeader(Name = "adminPassword")] string? adminPassword, CancellationToken cancellationToken)
     {
         if (!ValidateAdminCredentials(adminUsername, adminPassword))
         {

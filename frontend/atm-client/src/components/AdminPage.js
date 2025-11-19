@@ -24,7 +24,12 @@ const AdminPage = ({ onBack }) => {
     setLoading(true);
     setError(null);
     try {
-      const response = await api.get('/admin/accounts');
+      const response = await api.get('/admin/accounts', {
+        headers: {
+          'adminUsername': 'admin',
+          'adminPassword': '1234'
+        }
+      });
       setAccounts(response.data);
     } catch (err) {
       setError(err.response?.data ?? 'Failed to load accounts');
@@ -42,6 +47,11 @@ const AdminPage = ({ onBack }) => {
         pin: newAccount.pin,
         userName: newAccount.userName || undefined,
         balance: parseFloat(newAccount.balance) || 0
+      }, {
+        headers: {
+          'adminUsername': 'admin',
+          'adminPassword': '1234'
+        }
       });
       setNewAccount({ accountNumber: '', pin: '', userName: '', balance: '' });
       setShowAddForm(false);
@@ -57,7 +67,12 @@ const AdminPage = ({ onBack }) => {
     }
     setError(null);
     try {
-      await api.delete(`/admin/accounts/${accountNumber}`);
+      await api.delete(`/admin/accounts/${accountNumber}`, {
+        headers: {
+          'adminUsername': 'admin',
+          'adminPassword': '1234'
+        }
+      });
       loadAccounts();
       if (selectedAccount === accountNumber) {
         setSelectedAccount(null);
@@ -71,7 +86,12 @@ const AdminPage = ({ onBack }) => {
   const handleViewRecent = async (accountNumber) => {
     setError(null);
     try {
-      const response = await api.get(`/admin/accounts/${accountNumber}/recent`);
+      const response = await api.get(`/admin/accounts/${accountNumber}/recent`, {
+        headers: {
+          'adminUsername': 'admin',
+          'adminPassword': '1234'
+        }
+      });
       setRecentTransactions(response.data);
       setSelectedAccount(accountNumber);
     } catch (err) {
