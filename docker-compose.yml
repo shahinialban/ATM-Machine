@@ -1,0 +1,41 @@
+version: "3.9"
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: atm_db
+      POSTGRES_USER: atm_user
+      POSTGRES_PASSWORD: atm_pass
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  api:
+    build:
+      context: ./backend/ATM.Api
+      dockerfile: Dockerfile
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ConnectionStrings__DefaultConnection: Host=postgres;Port=5432;Database=atm_db;Username=atm_user;Password=1234
+    depends_on:
+      - postgres
+    ports:
+      - "8080:8080"
+
+  client:
+    build:
+      context: ./frontend/atm-client
+      dockerfile: Dockerfile
+    environment:
+      REACT_APP_API_URL: http://localhost:8080/api
+    ports:
+      - "3000:3000"
+    depends_on:
+      - api
+
+volumes:
+  postgres_data:
+
