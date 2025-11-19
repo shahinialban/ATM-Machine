@@ -25,6 +25,7 @@ const TransactionForm = ({ label, action, onSubmit }) => {
 const AccountDashboard = ({ account, onLogout }) => {
   const [balance, setBalance] = useState(account.balance);
   const [history, setHistory] = useState([]);
+  const [error, setError] = useState(null);
 
   const loadHistory = async () => {
     const response = await api.get(`/accounts/${account.accountNumber}/transactions`);
@@ -36,15 +37,25 @@ const AccountDashboard = ({ account, onLogout }) => {
   }, []);
 
   const handleDeposit = async ({ amount, description }) => {
-    const response = await api.post(`/accounts/${account.accountNumber}/deposit`, { amount, description });
-    setBalance(response.data.balance);
-    loadHistory();
+    setError(null);
+    try {
+      const response = await api.post(`/accounts/${account.accountNumber}/deposit`, { amount, description });
+      setBalance(response.data.balance);
+      loadHistory();
+    } catch (err) {
+      setError(err.response?.data ?? 'Unable to process deposit');
+    }
   };
 
   const handleWithdraw = async ({ amount, description }) => {
-    const response = await api.post(`/accounts/${account.accountNumber}/withdraw`, { amount, description });
-    setBalance(response.data.balance);
-    loadHistory();
+    setError(null);
+    try {
+      const response = await api.post(`/accounts/${account.accountNumber}/withdraw`, { amount, description });
+      setBalance(response.data.balance);
+      loadHistory();
+    } catch (err) {
+      setError(err.response?.data ?? 'Unable to process withdrawal');
+    }
   };
 
   return (
@@ -60,6 +71,7 @@ const AccountDashboard = ({ account, onLogout }) => {
         <h3>Current Balance</h3>
         <p style={{ fontSize: '2rem', margin: 0 }}>${balance.toFixed(2)}</p>
       </div>
+      {error && <div style={{ color: 'red', padding: '0.75rem', background: '#ffe6e6', borderRadius: 4 }}>{error}</div>}
       <div style={{ display: 'grid', gap: '1rem', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))' }}>
         <TransactionForm label="Deposit" action="Add Funds" onSubmit={handleDeposit} />
         <TransactionForm label="Withdraw" action="Withdraw" onSubmit={handleWithdraw} />
