@@ -3,6 +3,7 @@ using ATM.Api.DTOs;
 using ATM.Api.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using System.Security.Cryptography;
 using System.Text;
 
@@ -13,10 +14,12 @@ namespace ATM.Api.Controllers;
 public class AdminController : ControllerBase
 {
     private readonly AtmContext _context;
+    private readonly IConfiguration _configuration;
 
-    public AdminController(AtmContext context)
+    public AdminController(AtmContext context, IConfiguration configuration)
     {
         _context = context;
+        _configuration = configuration;
     }
 
     [HttpGet("accounts")]
@@ -135,9 +138,17 @@ public class AdminController : ControllerBase
         return Ok(recentTransactions);
     }
 
-    private static bool ValidateAdminCredentials(string? username, string? password)
+    private bool ValidateAdminCredentials(string? username, string? password)
     {
-        return username == "admin" && password == "1234";
+        // Prefer values from configuration (e.g. appsettings.json, environment variables)
+        // Fallback to the original hard-coded defaults if not configured.
+        var configuredUsername = _configuration["AdminCredentials:Username"];
+        var configuredPassword = _configuration["AdminCredentials:Password"];
+
+        var expectedUsername = string.IsNullOrWhiteSpace(configuredUsername) ? "admin" : configuredUsername;
+        var expectedPassword = string.IsNullOrWhiteSpace(configuredPassword) ? "1234" : configuredPassword;
+
+        return username == expectedUsername && password == expectedPassword;
     }
 
     private static string ComputeHash(string input)
