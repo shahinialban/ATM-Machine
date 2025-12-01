@@ -30,7 +30,7 @@ const LoginForm = ({ onSuccess }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit} style={{ 
+    <form className="responsive-form" onSubmit={handleSubmit} style={{ 
       display: 'grid', 
       gap: '1rem', 
       background: '#fff', 

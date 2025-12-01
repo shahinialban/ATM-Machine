@@ -4,6 +4,101 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>ATM Simulator</title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+      html, body {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        overflow-x: hidden;
+        overflow-y: auto;
+      }
+      #root {
+        height: 100%;
+      }
+      @media (max-width: 768px) {
+        main.responsive-container {
+          padding: 0.5rem !important;
+          height: 100vh !important;
+          overflow-y: auto !important;
+        }
+        .responsive-container:not(main) {
+          padding: 0.75rem !important;
+        }
+        .responsive-title-container {
+          margin-bottom: 1rem !important;
+        }
+        .responsive-title {
+          font-size: 1.25rem !important;
+        }
+        .responsive-card {
+          padding: 1rem !important;
+        }
+        .responsive-card-inner {
+          flex-direction: column !important;
+        }
+        .responsive-card-left {
+          margin-bottom: 1rem !important;
+        }
+        .responsive-card-inner > div:last-child {
+          text-align: left !important;
+        }
+        .responsive-card-text {
+          font-size: 1rem !important;
+        }
+        .responsive-card-balance {
+          font-size: 1.25rem !important;
+        }
+        .responsive-button {
+          padding: 1rem !important;
+          font-size: 0.9rem !important;
+        }
+        .responsive-form {
+          padding: 1rem !important;
+        }
+        .responsive-table-container {
+          overflow-x: auto !important;
+        }
+        .responsive-table {
+          font-size: 0.75rem !important;
+        }
+        .responsive-table th,
+        .responsive-table td {
+          padding: 0.5rem !important;
+        }
+      }
+      @media (max-width: 480px) {
+        main.responsive-container {
+          padding: 0.25rem !important;
+          height: 100vh !important;
+          overflow-y: auto !important;
+        }
+        .responsive-container:not(main) {
+          padding: 0.5rem !important;
+        }
+        .responsive-title-container {
+          margin-bottom: 0.75rem !important;
+        }
+        .responsive-title {
+          font-size: 1.125rem !important;
+        }
+        .responsive-card {
+          padding: 1rem !important;
+        }
+        .responsive-card-text {
+          font-size: 0.875rem !important;
+        }
+        .responsive-card-balance {
+          font-size: 1.125rem !important;
+        }
+        .responsive-button {
+          padding: 0.875rem !important;
+          font-size: 0.875rem !important;
+        }
+      }
+    </style>
   </head>
   <body>
     <div id="root"></div>

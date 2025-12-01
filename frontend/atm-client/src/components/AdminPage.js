@@ -158,7 +158,7 @@ const AdminPage = ({ onBack }) => {
       </div>
 
       {showAddForm && (
-        <form onSubmit={handleAddAccount} style={{ 
+        <form className="responsive-form" onSubmit={handleAddAccount} style={{ 
           display: 'grid', 
           gap: '1rem', 
           padding: '1.5rem', 
@@ -244,8 +244,8 @@ const AdminPage = ({ onBack }) => {
       {loading ? (
         <p style={{ textAlign: 'center', color: '#666' }}>Loading...</p>
       ) : (
-        <div style={{ overflowX: 'auto', background: '#f9f9f9', borderRadius: 12, padding: '1rem' }}>
-          <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+        <div className="responsive-table-container" style={{ overflowX: 'auto', background: '#f9f9f9', borderRadius: 12, padding: '1rem' }}>
+          <table className="responsive-table" style={{ width: '100%', borderCollapse: 'collapse' }}>
             <thead>
               <tr>
                 <th style={{ padding: '0.75rem', textAlign: 'left', borderBottom: '2px solid #ddd', fontSize: '0.875rem', fontWeight: 600, color: '#666' }}>Account Number</th>
@@ -260,7 +260,7 @@ const AdminPage = ({ onBack }) => {
                   <td style={{ padding: '0.75rem', fontSize: '0.875rem' }}>{account.accountNumber}</td>
                   <td style={{ padding: '0.75rem', fontSize: '0.875rem' }}>{account.userName}</td>
                   <td style={{ padding: '0.75rem', fontSize: '0.875rem', fontWeight: 500 }}>${account.balance.toFixed(2)}</td>
-                  <td style={{ padding: '0.75rem', display: 'flex', gap: '0.5rem' }}>
+                  <td style={{ padding: '0.75rem', display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
                     <button 
                       onClick={() => handleViewRecent(account.accountNumber)}
                       style={{

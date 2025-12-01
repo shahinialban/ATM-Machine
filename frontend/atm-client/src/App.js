@@ -10,28 +10,32 @@ const App = () => {
   const [adminAuthenticated, setAdminAuthenticated] = useState(false);
 
   return (
-    <main style={{ 
+    <main className="responsive-container" style={{ 
       fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
       minHeight: '100vh', 
+      height: '100vh',
       backgroundColor: '#e5e5e5',
-      padding: '2rem 1rem',
+      padding: '1rem',
       display: 'flex',
       justifyContent: 'center',
-      alignItems: 'center'
+      alignItems: 'flex-start',
+      boxSizing: 'border-box',
+      overflowY: 'auto'
     }}>
-      <div style={{ 
+      <div className="responsive-container" style={{ 
         maxWidth: 420, 
         width: '100%',
         background: '#e5e5e5',
         borderRadius: 24,
-        padding: '2rem'
+        padding: '1.5rem',
+        boxSizing: 'border-box'
       }}>
-        <div style={{ 
+        <div className="responsive-title-container" style={{ 
           textAlign: 'center', 
           marginBottom: '2rem',
           color: '#333'
         }}>
-          <h1 style={{ margin: 0, fontSize: '1.5rem', fontWeight: 600 }}>ATM Machine</h1>
+          <h1 className="responsive-title" style={{ margin: 0, fontSize: '1.5rem', fontWeight: 600 }}>ATM Machine</h1>
         </div>
         {!account && !showAdmin && (
           <LoginForm

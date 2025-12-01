@@ -13,7 +13,7 @@ const TransactionForm = ({ label, action, onSubmit, onCancel }) => {
   };
 
   return (
-    <div style={{
+    <div className="responsive-form" style={{
       background: '#fff',
       borderRadius: 12,
       padding: '1.5rem'
@@ -141,20 +141,20 @@ const AccountDashboard = ({ account, onLogout }) => {
   return (
     <section style={{ display: 'grid', gap: '1.5rem' }}>
       {/* Purple Card Section */}
-      <div style={{
+      <div className="responsive-card" style={{
         background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
         borderRadius: 16,
         padding: '1.5rem',
         color: '#fff'
       }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
-          <div>
+        <div className="responsive-card-inner" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+          <div className="responsive-card-left">
             <div style={{ fontSize: '0.75rem', opacity: 0.9, marginBottom: '0.5rem' }}>VISA • Debit</div>
-            <div style={{ fontSize: '1.25rem', fontWeight: 600, marginBottom: '1rem' }}>{account.userName.toUpperCase()}</div>
+            <div className="responsive-card-text" style={{ fontSize: '1.25rem', fontWeight: 600, marginBottom: '1rem' }}>{account.userName.toUpperCase()}</div>
           </div>
           <div style={{ textAlign: 'right' }}>
             <div style={{ fontSize: '0.75rem', opacity: 0.9, marginBottom: '0.5rem' }}>Balance</div>
-            <div style={{ fontSize: '1.5rem', fontWeight: 600 }}>${balance.toFixed(2)}</div>
+            <div className="responsive-card-balance" style={{ fontSize: '1.5rem', fontWeight: 600 }}>${balance.toFixed(2)}</div>
           </div>
         </div>
       </div>
@@ -171,6 +171,7 @@ const AccountDashboard = ({ account, onLogout }) => {
       <div style={{ display: 'grid', gap: '1rem' }}>
         <button
           onClick={() => setShowWithdrawForm(!showWithdrawForm)}
+          className="responsive-button"
           style={{
             padding: '1.25rem',
             background: '#fff',
@@ -187,6 +188,7 @@ const AccountDashboard = ({ account, onLogout }) => {
         </button>
         <button
           onClick={() => setShowDepositForm(!showDepositForm)}
+          className="responsive-button"
           style={{
             padding: '1.25rem',
             background: '#4CAF50',
@@ -203,6 +205,7 @@ const AccountDashboard = ({ account, onLogout }) => {
         </button>
         <button
           onClick={() => setShowTransactions(!showTransactions)}
+          className="responsive-button"
           style={{
             padding: '1.25rem',
             background: '#fff',
