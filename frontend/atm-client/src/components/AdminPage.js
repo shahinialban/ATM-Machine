@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import api from '../api.js';
 
-const AdminPage = ({ onBack }) => {
+const AdminPage = ({ onBack, adminCredentials }) => {
   const [accounts, setAccounts] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -36,8 +36,8 @@ const AdminPage = ({ onBack }) => {
     try {
       const response = await api.get('/admin/accounts', {
         headers: {
-          'adminUsername': 'admin',
-          'adminPassword': '1234'
+          'adminUsername': adminCredentials.username,
+          'adminPassword': adminCredentials.password
         }
       });
       setAccounts(response.data);
@@ -59,8 +59,8 @@ const AdminPage = ({ onBack }) => {
         balance: parseFloat(newAccount.balance) || 0
       }, {
         headers: {
-          'adminUsername': 'admin',
-          'adminPassword': '1234'
+          'adminUsername': adminCredentials.username,
+          'adminPassword': adminCredentials.password
         }
       });
       setNewAccount({ accountNumber: '', pin: '', userName: '', balance: '' });
@@ -79,8 +79,8 @@ const AdminPage = ({ onBack }) => {
     try {
       await api.delete(`/admin/accounts/${accountNumber}`, {
         headers: {
-          'adminUsername': 'admin',
-          'adminPassword': '1234'
+          'adminUsername': adminCredentials.username,
+          'adminPassword': adminCredentials.password
         }
       });
       loadAccounts();
@@ -98,8 +98,8 @@ const AdminPage = ({ onBack }) => {
     try {
       const response = await api.get(`/admin/accounts/${accountNumber}/recent`, {
         headers: {
-          'adminUsername': 'admin',
-          'adminPassword': '1234'
+          'adminUsername': adminCredentials.username,
+          'adminPassword': adminCredentials.password
         }
       });
       setRecentTransactions(response.data);

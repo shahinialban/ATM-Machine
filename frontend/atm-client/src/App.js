@@ -8,6 +8,7 @@ import AdminLogin from './components/AdminLogin.js';
 const App = () => {
   const [account, setAccount] = useState(null);
   const [adminAuthenticated, setAdminAuthenticated] = useState(false);
+  const [adminCredentials, setAdminCredentials] = useState(null);
   const navigate = useNavigate();
 
   return (
@@ -105,16 +106,22 @@ const App = () => {
             element={
               !adminAuthenticated ? (
                 <AdminLogin
-                  onSuccess={() => setAdminAuthenticated(true)}
+                  onSuccess={(credentials) => {
+                    setAdminCredentials(credentials);
+                    setAdminAuthenticated(true);
+                  }}
                   onBack={() => {
                     setAdminAuthenticated(false);
+                    setAdminCredentials(null);
                     navigate('/');
                   }}
                 />
               ) : (
                 <AdminPage
+                  adminCredentials={adminCredentials}
                   onBack={() => {
                     setAdminAuthenticated(false);
+                    setAdminCredentials(null);
                     navigate('/');
                   }}
                 />

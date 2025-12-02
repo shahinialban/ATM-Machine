@@ -1,18 +1,32 @@
 import React, { useState } from 'react';
+import api from '../api.js';
 
 const AdminLogin = ({ onSuccess, onBack }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setError(null);
+    setLoading(true);
 
-    if (username === 'admin' && password === '1234') {
-      onSuccess();
-    } else {
-      setError('Invalid admin credentials');
+    try {
+      // Validate credentials by attempting to access an admin endpoint
+      await api.get('/admin/accounts', {
+        headers: {
+          'adminUsername': username,
+          'adminPassword': password
+        }
+      });
+      
+      // If successful, pass credentials to parent component
+      onSuccess({ username, password });
+    } catch (err) {
+      setError(err.response?.data ?? 'Invalid admin credentials');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -59,6 +73,7 @@ const AdminLogin = ({ onSuccess, onBack }) => {
       </label>
       <button 
         type="submit"
+        disabled={loading}
         style={{
           padding: '1rem',
           background: '#4CAF50',
@@ -67,10 +82,11 @@ const AdminLogin = ({ onSuccess, onBack }) => {
           borderRadius: 12,
           fontSize: '1rem',
           fontWeight: 600,
-          cursor: 'pointer'
+          cursor: loading ? 'not-allowed' : 'pointer',
+          opacity: loading ? 0.7 : 1
         }}
       >
-        Login
+        {loading ? 'Signing in...' : 'Login'}
       </button>
       {error && <div style={{ 
         color: '#d32f2f', 
